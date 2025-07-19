@@ -109,6 +109,48 @@
                     12
                 </div>
             </div>
+
+            <div class="casa13">
+                <div class="numero">
+                    13
+                </div>
+            </div>
+
+            <div class="casa14">
+                <div class="numero">
+                    14
+                </div>
+            </div>
+
+            <div class="casa15">
+                <div class="numero">
+                    15
+                </div>
+            </div>
+
+            <div class="casa16">
+                <div class="numero">
+                    16
+                </div>
+            </div>
+
+            <div class="casa17">
+                <div class="numero">
+                    17
+                </div>
+            </div>
+
+            <div class="casa18">
+                <div class="numero">
+                    18
+                </div>
+            </div>
+
+            <div class="casa19">
+                <div class="numero">
+                    19
+                </div>
+            </div>
             
         </div>
 
@@ -119,27 +161,27 @@
 
             <div class="dado1">
 
-                <img width="60" height="60" src="img/dados/um.png">
+                <img width="70" height="70" src="img/dados/um.png">
             </div>
 
             <div class="dado2">
-                <img width="60" height="60" src="img/dados/dois.png">
+                <img width="70" height="70" src="img/dados/dois.png">
             </div>
 
             <div class="dado3">
-                <img width="60" height="60" src="img/dados/tres.png">
+                <img width="70" height="70" src="img/dados/tres.png">
             </div>
 
             <div class="dado4">
-                <img width="60" height="60" src="img/dados/quatro.png">
+                <img width="70" height="70" src="img/dados/quatro.png">
             </div>
 
             <div class="dado5">
-                <img width="60" height="60" src="img/dados/cinco.png">
+                <img width="70" height="70" src="img/dados/cinco.png">
             </div>
 
             <div class="dado6">
-                <img width="60" height="60" src="img/dados/seis.png">
+                <img width="70" height="70" src="img/dados/seis.png">
             </div>
 
         </div>
@@ -197,6 +239,53 @@
             // para deixar a interface mais limpa no início.
             diceFaces.forEach((face, index) => { if (index > 0) { face.style.display = 'none'; } });
         </script>
+
+        <script>
+            if (document.getElementById('player1').player1Position == 1 ) {
+                document.getElementById('player1').player1Position = 0;
+            }
+        </script>        <script>
+            // A função rolarDados já lida com o jogador não ultrapassar a última casa.
+            // Se você quer que o jogador volte para o início (casa 0) ao chegar na casa 12 (que é o índice 12),
+            // você precisa modificar a lógica dentro da função rolarDados.
+
+            // Vamos refatorar a função rolarDados para incluir essa regra.
+            // Remova a função rolarDados existente e substitua por esta:
+
+            function rolarDadosComLoop() {
+                const roll = Math.floor(Math.random() * 6) + 1;
+                console.log(`O dado rolou: ${roll}`);
+
+                diceFaces.forEach((face, index) => {
+                    if ((index + 1) === roll) {
+                        face.style.display = 'block';
+                    } else {
+                        face.style.display = 'none';
+                    }
+                });
+
+                let newPosition = player1Position + roll;
+
+                // Se a nova posição for maior ou igual ao número total de casas (13, de 0 a 12),
+                // o jogador volta para o início.
+                // casas.length é 13 (0 a 12).
+                if (newPosition >= casas.length) {
+                    newPosition = newPosition % casas.length; // Usa o operador módulo para "loop"
+                    // Por exemplo, se newPosition for 13, 13 % 13 = 0 (volta para o início)
+                    // Se newPosition for 14, 14 % 13 = 1 (vai para a casa 1)
+                }
+
+                const targetCasa = casas[newPosition];
+                targetCasa.appendChild(player1Element);
+
+                player1Position = newPosition;
+            }
+
+            // Remova o listener de evento anterior e adicione o novo
+            dadosContainer.removeEventListener('click', rolarDados); // Remove o antigo
+            dadosContainer.addEventListener('click', rolarDadosComLoop); // Adiciona o novo
+        </script>
+
 
     </div>
 
