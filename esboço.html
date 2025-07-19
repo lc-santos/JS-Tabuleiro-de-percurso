@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esboço</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <div>
+	  <button onclick="document.getElementById('player').play()">Play</button>
+	  <button onclick="document.getElementById('player').pause()">Pause</button>
+	  <button onclick="document.getElementById('player').volume+=0.1">Aumentar volume</button>
+	  <button onclick="document.getElementById('player').volume-=0.1">Diminuir volume</button>
+	</div>
+
+
+    <audio id="player" autoplay controls loop>
+        <source src="ost/bg.mp3" type="audio/mp3">
+    </audio>
+
+
+
+
+    <div id="tela">
+
+        <div id="casas">
+            <div class="inicio">
+
+                
+                <div class="player1">
+                    <img width="110" height="110" src="img/fisgo.gif">
+
+                </div>
+                <div class="letras">
+                Inicio
+                </div>
+            </div>
+
+            <div class="casa1">
+                <div class="numero">
+                    1
+                </div>
+            </div>
+
+            <div class="casa2">
+                <div class="numero">
+                    2
+                </div>
+            </div>
+
+            <div class="casa3">
+                <div class="numero">
+                    3
+                </div>
+            </div>
+
+            <div class="casa4">
+                <div class="numero">
+                    4
+                </div>
+            </div>
+
+            <div class="casa5">
+                <div class="numero">
+                    5
+                </div>
+            </div>
+
+            <div class="casa6">
+                <div class="numero">
+                    6
+                </div>
+            </div>
+            
+        </div>
+
+        
+        <div id="dados">
+
+         
+
+            <div class="dado1">
+
+                <img width="60" height="60" src="img/dados/um.png">
+            </div>
+
+            <div class="dado2">
+                <img width="60" height="60" src="img/dados/dois.png">
+            </div>
+
+            <div class="dado3">
+                <img width="60" height="60" src="img/dados/tres.png">
+            </div>
+
+            <div class="dado4">
+                <img width="60" height="60" src="img/dados/quatro.png">
+            </div>
+
+            <div class="dado5">
+                <img width="60" height="60" src="img/dados/cinco.png">
+            </div>
+
+            <div class="dado6">
+                <img width="60" height="60" src="img/dados/seis.png">
+            </div>
+
+        </div>
+
+        <script>
+            // Seleciona os elementos importantes do jogo que vamos manipular
+            const player1Element = document.querySelector('.player1');
+            const casas = document.querySelectorAll('#casas > div'); // Pega todas as casas, incluindo o "inicio"
+            const dadosContainer = document.getElementById('dados');
+            const diceFaces = document.querySelectorAll('#dados > div');
+
+            // Variável para guardar a posição atual do jogador.
+            // Começa em 0, que corresponde à div "inicio".
+            let player1Position = 0;
+
+            // Função para ser chamada quando os dados forem clicados
+            function rolarDados() {
+                // 1. Simula a rolagem do dado: gera um número aleatório de 1 a 6
+                const roll = Math.floor(Math.random() * 6) + 1;
+                console.log(`O dado rolou: ${roll}`);
+
+                // 2. Atualiza a visualização do dado para mostrar o resultado do 'roll'
+                diceFaces.forEach((face, index) => {
+                    // O 'index' da lista de faces vai de 0 a 5. Somamos 1 para comparar com o 'roll' (1 a 6).
+                    if ((index + 1) === roll) {
+                        face.style.display = 'block'; // Mostra a face correta
+                    } else {
+                        face.style.display = 'none'; // Esconde as outras
+                    }
+                });
+
+                // 3. Calcula a nova posição do jogador somando o resultado do dado
+                let newPosition = player1Position + roll;
+
+                // 4. Garante que o jogador não ultrapasse a última casa do tabuleiro
+                // A quantidade de casas é 'casas.length'. O último índice é 'casas.length - 1'.
+                if (newPosition >= casas.length) {
+                    newPosition = casas.length - 1; // Se passar, move para a última casa
+                    // Você pode adicionar uma mensagem de fim de jogo aqui
+                    // alert("Fim de jogo!");
+                }
+
+                // 5. Move o elemento do jogador para a nova casa
+                const targetCasa = casas[newPosition]; // Pega a div da casa de destino
+                targetCasa.appendChild(player1Element); // Move o elemento do jogador para dentro da nova casa
+
+                // 6. Atualiza a variável de posição do jogador para a próxima rodada
+                player1Position = newPosition;
+            }
+
+            // Adiciona o "ouvinte" de evento de clique na área dos dados
+            dadosContainer.addEventListener('click', rolarDados);
+
+            // Bônus: Ao carregar a página, esconde todas as faces do dado, exceto a primeira,
+            // para deixar a interface mais limpa no início.
+            diceFaces.forEach((face, index) => { if (index > 0) { face.style.display = 'none'; } });
+        </script>
+
+    </div>
+
+
+
+</body>
+</html>
